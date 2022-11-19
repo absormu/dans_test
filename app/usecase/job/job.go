@@ -6,6 +6,7 @@ import (
 	"github.com/absormu/dans_test/app/entity"
 	md "github.com/absormu/dans_test/app/middleware"
 	repojob "github.com/absormu/dans_test/app/repository/job"
+	pg "github.com/absormu/dans_test/pkg/pagination"
 	lg "github.com/absormu/dans_test/pkg/response"
 	resp "github.com/absormu/dans_test/pkg/response"
 	sdk "github.com/absormu/dans_test/pkg/sdk"
@@ -20,6 +21,14 @@ func GetJobList(c echo.Context, extractToken entity.ExtractToken) (e error) {
 	location := c.QueryParam("location")
 	fullTime := c.QueryParam("full_time")
 
+	meta, e := pg.Pagination(c)
+	if e != nil {
+		logger.WithField("error", e.Error()).Error("Catch error Pagination")
+		e = resp.CustomError(c, http.StatusBadRequest, sdk.ERR_PARAM_ILLEGAL,
+			lg.Language{Bahasa: nil, English: "Bad Request"}, nil, nil)
+		return
+	}
+
 	var jobLists []entity.JobList
 	jobLists, e = repojob.RequestJobList(c, description, location, fullTime)
 	if e != nil {
@@ -27,6 +36,7 @@ func GetJobList(c echo.Context, extractToken entity.ExtractToken) (e error) {
 		return
 	}
 
+	total := int64(len(jobLists))
 	var responseData []entity.JobList
 	var data entity.JobList
 	for _, jobList := range jobLists {
@@ -44,7 +54,9 @@ func GetJobList(c echo.Context, extractToken entity.ExtractToken) (e error) {
 		responseData = append(responseData, data)
 	}
 
+	metaPagination := pg.GenerateMeta(c, total, meta.Limit, meta.Page, meta.Offset, meta.Pagination, nil)
+
 	e = resp.CustomError(c, http.StatusOK, sdk.ERR_SUCCESS,
-		lg.Language{Bahasa: "Sukses", English: "Success"}, nil, responseData)
+		lg.Language{Bahasa: "Sukses", English: "Success"}, metaPagination, responseData)
 	return
 }
