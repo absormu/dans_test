@@ -21,14 +21,6 @@ func GetJobList(c echo.Context, extractToken entity.ExtractToken) (e error) {
 	location := c.QueryParam("location")
 	fullTime := c.QueryParam("full_time")
 
-	meta, e := pg.Pagination(c)
-	if e != nil {
-		logger.WithField("error", e.Error()).Error("Catch error Pagination")
-		e = resp.CustomError(c, http.StatusBadRequest, sdk.ERR_PARAM_ILLEGAL,
-			lg.Language{Bahasa: nil, English: "Bad Request"}, nil, nil)
-		return
-	}
-
 	var jobLists []entity.JobList
 	jobLists, e = repojob.RequestJobList(c, description, location, fullTime)
 	if e != nil {
@@ -52,6 +44,14 @@ func GetJobList(c echo.Context, extractToken entity.ExtractToken) (e error) {
 		data.HowToApply = jobList.HowToApply
 		data.CompanyLogo = jobList.CompanyLogo
 		responseData = append(responseData, data)
+	}
+
+	meta, e := pg.Pagination(c)
+	if e != nil {
+		logger.WithField("error", e.Error()).Error("Catch error Pagination")
+		e = resp.CustomError(c, http.StatusBadRequest, sdk.ERR_PARAM_ILLEGAL,
+			lg.Language{Bahasa: nil, English: "Bad Request"}, nil, nil)
+		return
 	}
 
 	metaPagination := pg.GenerateMeta(c, total, meta.Limit, meta.Page, meta.Offset, meta.Pagination, nil)
