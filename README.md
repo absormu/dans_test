@@ -71,15 +71,15 @@
 
 
 # POSTMAN
-{
-    "email": "absor@gmail.com",
-    "password": "@bs0R212"
-}
+    {
+        "email": "absor@gmail.com",
+        "password": "@bs0R212"
+    }
 
-curl --location --request POST 'http://localhost:9670/dans_test/login' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "email": "absor@gmail.com",
-    "password": "@bs0R212"
-}
-'
+    curl --location --request POST 'http://localhost:9670/dans_test/login' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "email": "absor@gmail.com",
+        "password": "@bs0R212"
+    }
+    '
