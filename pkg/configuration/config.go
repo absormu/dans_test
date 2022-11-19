@@ -23,6 +23,7 @@ type Configuration struct {
 	ClientSecret    string `default:"PlatformSecretdev" split_words:"true"`
 	TokenLifeTime   int64  `default:"10800" split_words:"true"`
 	JobListUrl      string `default:"http://dev3.dansmultipro.co.id/api/recruitment/positions.json" split_words:"true"`
+	JobDetaillUrl   string `default:"http://dev3.dansmultipro.co.id/api/recruitment/positions/" split_words:"true"`
 }
 
 // Config .

@@ -60,3 +60,41 @@ func GetJobList(c echo.Context, extractToken entity.ExtractToken) (e error) {
 		lg.Language{Bahasa: "Sukses", English: "Success"}, metaPagination, responseData)
 	return
 }
+
+func GetJobDetail(c echo.Context, extractToken entity.ExtractToken) (e error) {
+	logger := md.GetLogger(c)
+	logger.WithField("request", extractToken).Info("usecase: GetJobDetail")
+
+	idStr := c.Param("id")
+
+	if e != nil {
+		logger.WithField("error", e.Error()).Error("Catch error Pagination")
+		e = resp.CustomError(c, http.StatusBadRequest, sdk.ERR_PARAM_ILLEGAL,
+			lg.Language{Bahasa: nil, English: "Bad Request"}, nil, nil)
+		return
+	}
+
+	var jobDetail entity.JobList
+	jobDetail, e = repojob.RequestJobDetail(c, idStr)
+	if e != nil {
+		logger.WithField("error", e.Error()).Error("Catch error RequestJobDetail request")
+		return
+	}
+
+	var data entity.JobList
+	data.ID = jobDetail.ID
+	data.Type = jobDetail.Type
+	data.Url = jobDetail.Url
+	data.CreatedAt = jobDetail.CreatedAt
+	data.Company = jobDetail.Company
+	data.CompanyUrl = jobDetail.CompanyUrl
+	data.Location = jobDetail.Location
+	data.Title = jobDetail.Title
+	data.Description = jobDetail.Description
+	data.HowToApply = jobDetail.HowToApply
+	data.CompanyLogo = jobDetail.CompanyLogo
+
+	e = resp.CustomError(c, http.StatusOK, sdk.ERR_SUCCESS,
+		lg.Language{Bahasa: "Sukses", English: "Success"}, nil, data)
+	return
+}

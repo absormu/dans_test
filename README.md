@@ -97,3 +97,14 @@ Job List
     "password": "@bs0R212"
     }
     '
+
+Job Detail by Id
+
+    curl --location --request GET 'http://localhost:9670/dans_test/job-detail/32bf67e5-4971-47ce-985c-44b6b3860cdb' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFic29yQGdtYWlsLmNvbSIsImV4cCI6MTY2ODg1Mjc4OCwibmFtZSI6IlBULiBBYnNvciBJbmRvbmVzaWEiLCJyb2xlX2lkIjoyLCJ1aWQiOiJjZHM4NDEzaGVkNzQyYmZkOTU1MCIsInVzZXJfY29udGFjdF9pZCI6MywidXNlcl9pZCI6NX0.yzFQjzyB62wiEtimf9JMZB44D3VKXQCDQrPRbm53kis' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "email": "absor@gmail.com",
+        "password": "@bs0R212"
+    }
+    '

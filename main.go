@@ -15,6 +15,7 @@ func initHandlers(e *echo.Echo) {
 	root := e.Group(cm.Config.RootURL)
 	root.POST("/login", handler.LoginHandler)
 	root.GET("/job-list", handler.GetJobListHandler)
+	root.GET("/job-detail/:id", handler.GetJobDetailHandler)
 
 	// Start serverlog.Info()
 	log.Info("Staring server ...")

@@ -15,9 +15,6 @@ func RequestJobList(c echo.Context, description, location, fullTime string) (res
 	logger := md.GetLogger(c)
 	logger.WithField("request", "").Info("repository: RequestJobList")
 
-	headers := map[string]string{}
-	headers["MsgID"] = "ceocececggg"
-
 	queryParams := map[string]string{}
 	if description != "" {
 		queryParams["description"] = description
@@ -30,6 +27,28 @@ func RequestJobList(c echo.Context, description, location, fullTime string) (res
 	}
 
 	rawResponse, e := sdk.RawGetRequest(logger, cm.Config.JobListUrl, cm.Config.Timeout, queryParams)
+	if e != nil {
+		return
+	}
+
+	if e = json.Unmarshal(rawResponse, &res); e != nil {
+		return
+	}
+
+	return
+}
+
+func RequestJobDetail(c echo.Context, id string) (res entity.JobList, e error) {
+
+	logger := md.GetLogger(c)
+	logger.WithField("request", "").Info("repository: RequestJobDetail")
+
+	queryParams := map[string]string{}
+	if id != "" {
+		queryParams["id"] = id
+	}
+
+	rawResponse, e := sdk.RawGetRequestV2(logger, cm.Config.JobDetaillUrl, cm.Config.Timeout, id)
 	if e != nil {
 		return
 	}
