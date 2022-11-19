@@ -108,3 +108,21 @@ Job Detail by Id
         "password": "@bs0R212"
     }
     '
+
+# SQL Test
+
+    No. 1
+        SELECT 
+        C.ID, C.CUST_FIRSTNAME, C.CUST_LASTNAME, 
+        A.ACC_NUMBER, SUM(A.ACC_BALANCE) AS BALANCE, 
+        FROM CUSTOMER C  
+        JOIN ACCOUNT A ON A.ACC_OWNER = C.CUST_ID;
+
+    No. 2 
+        SELECT 
+        T.TRS_DATE, A.ACC_NUMBER, C.CUST_FIRSTNAME, C.CUST_LASTNAME
+        FROM `TRANSACTION` T 
+        JOIN CUSTOMER C ON C.CUST_ID = A.ACC_OWNER 
+        JOIN ACCOUNT A ON  A.ACC_NUMBER = T.TRS_FROM_ACCOUNT
+        WHERE C.CUST_FIRSTNAME = "John Michael"    
+        ORDER BY T.TRS_DATE DESC, A.ACC_NUMBER DESC; 
