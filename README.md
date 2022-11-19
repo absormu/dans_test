@@ -71,6 +71,9 @@
 
 
 # POSTMAN
+
+Login
+
     {
         "email": "absor@gmail.com",
         "password": "@bs0R212"
@@ -81,5 +84,16 @@
     --data-raw '{
         "email": "absor@gmail.com",
         "password": "@bs0R212"
+    }
+    '
+
+Job List
+
+    curl --location --request GET 'http://localhost:9670/dans_test/job-list?description=python&location=berlin&full_time=true' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFic29yQGdtYWlsLmNvbSIsImV4cCI6MTY2ODg0NDQ0NSwibmFtZSI6IlBULiBBYnNvciBJbmRvbmVzaWEiLCJyb2xlX2lkIjoyLCJ1aWQiOiJjZHM2MnJiaGVkN2E3bmEzc2gzZyIsInVzZXJfY29udGFjdF9pZCI6MywidXNlcl9pZCI6NX0.wKUTz4yYDoAJa46A938gGiMhRzUbrod2Onl_Ksz_O0w' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+    "email": "absor@gmail.com",
+    "password": "@bs0R212"
     }
     '
