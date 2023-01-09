@@ -75,9 +75,17 @@ func GetJobDetail(c echo.Context, extractToken entity.ExtractToken) (e error) {
 	}
 
 	var jobDetail entity.JobList
+	var jobDetailEmpty entity.JobList
 	jobDetail, e = repojob.RequestJobDetail(c, idStr)
 	if e != nil {
 		logger.WithField("error", e.Error()).Error("Catch error RequestJobDetail request")
+		return
+	}
+
+	if jobDetail == jobDetailEmpty {
+		logger.Error("Catch error jobDetail id not found")
+		e = resp.CustomError(c, http.StatusNotFound, sdk.ERR_USER_NOT_FOUND,
+			lg.Language{Bahasa: "jobDetail id tidak tersedia", English: "jobDetail id not found"}, nil, nil)
 		return
 	}
 
